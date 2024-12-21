@@ -1,1 +1,1 @@
-# unity-homework
+# Учебный проект на unity
