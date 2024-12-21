@@ -11,6 +11,9 @@ public class PlayerControll : MonoBehaviour
     private bool isGrounded;
     public float speed = 3.0f;
 
+    public LayerMask groundLayer;
+    public float groundCheckDistance = 0.3f;
+
     public InputAction MoveAction;
     public InputAction JumpAction;
 
@@ -31,27 +34,29 @@ public class PlayerControll : MonoBehaviour
         position.x += speed * Time.deltaTime * move;
         transform.position = position;
 
-        print("speed" + speed);
-        print("jump: " + jumpHeight);
-        if (JumpAction.ReadValue<float>() > 0 && isGrounded)
+        if (JumpAction.ReadValue<float>() > 0 && IsGrounded())
         {
             rigitBody.velocity = new Vector2(rigitBody.velocity.x,
                 Mathf.Sqrt(jumpHeight * -2f * Physics2D.gravity.y));
         }
     }
 
+    private bool IsGrounded()
+    {
+        print("cast ray");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundLayer);
+        return hit.collider != null;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("enter collision");
         if (collision.collider.CompareTag("ground"))
         {
             isGrounded = true;
         }
     }
-
     private void OnCollisionExit2D(Collision2D collision)
     {
-        print("exit collision");
         if (collision.collider.CompareTag("ground"))
         {
             isGrounded = false;

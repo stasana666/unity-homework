@@ -173,6 +173,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 2
   speed: 3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckDistance: 0.3
   MoveAction:
     m_Name: Move
     m_Type: 0
